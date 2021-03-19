@@ -81,8 +81,8 @@ class VideoMaskDetection:
             predictions = mask_model.predict(faces, batch_size=32)
         elif VideoMaskDetection.flag:
             VideoMaskDetection.save_offender_image()
-            if Interface.auto_send_is_on.get() and Interface.timer_start():
-                print('END')
+            if Interface.auto_send_is_on.get():
+                Notification.notify(show_messagebox=False)
 
         return locations, predictions
 
@@ -95,7 +95,7 @@ class VideoMaskDetection:
     @staticmethod
     def save_offender_image():
         VideoMaskDetection.count += 1
-        cv2.imwrite(f"offenders/offender{VideoMaskDetection.count}.png", last_read_frame)
+        cv2.imwrite(f"offenders/capture{VideoMaskDetection.count}.png", last_read_frame)
         VideoMaskDetection.flag = False
 
     def start_mask_detection(self, frame):
@@ -157,7 +157,7 @@ class VideoMaskDetection:
                 Interface.update_info_text("")
                 break
             elif key == ord("s"):
-                Notification.notify()
+                Notification.notify(show_messagebox=False)
 
         vs.release()
         cv2.destroyAllWindows()

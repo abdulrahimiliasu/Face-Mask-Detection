@@ -32,11 +32,12 @@ class Interface:
     progress_bar = Progressbar(window, orient=HORIZONTAL, length=100, mode='determinate')
     info_text = Label(text="", font=FONT_SMALL, padx=20, pady=20, bg=BACKGROUND, fg=DEEP_ORANGE)
     canvas = Canvas(width=300, height=300, bg=GREY_LIGHT, highlightthickness=0)
-    timer_label = Label(text="", font=FONT_SMALL, padx=5, pady=5, bg=BACKGROUND, fg=DEEP_ORANGE)
+    message_info_label = Label(text="", font=FONT_SMALL, padx=5, pady=5, bg=BACKGROUND, fg=DEEP_ORANGE)
 
     canvas_image = PhotoImage(file='offenders/last_capture.png')
     auto_send_is_on = IntVar()
     count = 5
+    timer_is_on = False
 
     def __init__(self):
         # Text
@@ -128,8 +129,8 @@ class Interface:
         Interface.from_password_ent.grid(row=4, column=6)
         browse_detections_bttn.grid(row=2, column=8, columnspan=2)
         auto_send.grid(row=3, column=8, columnspan=2)
-        Interface.timer_label.grid(row=4, column=8, columnspan=2)
-        send_bttn.grid(row=5, column=8, columnspan=2)
+        Interface.message_info_label.grid(row=4, column=8, columnspan=2, rowspan=2)
+        send_bttn.grid(row=6, column=8, columnspan=2)
         Interface.canvas.grid(row=1, column=8, columnspan=2)
         Interface.progress_bar.grid(row=9, column=6, columnspan=2)
 
@@ -160,14 +161,18 @@ class Interface:
             Interface.canvas.create_image(150, 150, image=Interface.canvas_image)
 
     @staticmethod
-    def timer_start():
-        # Interface.count = 5
-        Interface.window.after(1000, Interface.timer_start)
-        Interface.update_timer_text(f'Sending email in  {Interface.count}s')
+    def send_notification_timer():
+        Interface.timer_is_on = True
+        Interface.update_message_info_text(f'Sending email in  {Interface.count}s')
         Interface.count -= 1
         if Interface.count < 0:
             Interface.count = 5
+            Interface.timer_is_on = False
+            Interface.update_message_info_text('Sending Notification ...')
+            Notification.notify()
             return True
+        else:
+            Interface.window.after(1000, lambda: Interface.send_notification_timer())
 
     @staticmethod
     def update_progress_bar(value: int):
@@ -189,12 +194,13 @@ class Interface:
         Interface.window.update()
 
     @staticmethod
-    def update_timer_text(text: str):
+    def update_message_info_text(text: str, fg_color=DEEP_ORANGE):
         """
         Updates the timer text visible on the interface to a specified string text
         :param text: Sets the text value of info text
+        :param fg_color: Sets the foreground color of the text
         """
-        Interface.timer_label.config(text=text)
+        Interface.message_info_label.config(text=text, fg=fg_color)
         Interface.window.update_idletasks()
         Interface.window.update()
 

@@ -66,7 +66,7 @@ class Notification:
             return True
 
     @staticmethod
-    def notify(image="last_capture.png"):
+    def notify(image="last_capture.png", show_messagebox=True):
         """
         sends an email notification from the details provided on the interface fields, triggered only when send
         button is pressed
@@ -79,10 +79,16 @@ class Notification:
                                            time=date,
                                            smtp_server=Interface.smtp_label.get().split(':')[1],
                                            attachment=image):
-            # Interface.text_notification_sent.config(text='')
-            messagebox.showwarning(title="Notification Sent",
-                                   message="Notification Was Successfully Sent")
+            Interface.update_message_info_text(f'Notification was successful'
+                                               f'\nat {date}', fg_color='#4CAF50')
+            if show_messagebox:
+                messagebox.showwarning(title="Notification Sent",
+                                       message="Notification Was Successfully Sent")
         else:
-            messagebox.showwarning(title="Notification Error",
-                                   message="Email could not be sent, please check the sender's email and password then "
-                                           "try again !")
+            Interface.update_message_info_text(f"Notification Failed"
+                                               f"\nat {date}"
+                                               f"\nPlease check credentials and try again!")
+            if show_messagebox:
+                messagebox.showwarning(title="Notification Error",
+                                       message="Email could not be sent, please check the sender's email and password then "
+                                               "try again !")
