@@ -69,12 +69,12 @@ class Interface:
 
         # Radio Buttons
         self.radio_state = IntVar()
-        webcam_radio_bttn = Radiobutton(text="Camera", value=0, variable=self.radio_state, command=self.radio_chosen, anchor='c',
-                                        bg=BACKGROUND, fg=BLACK)
-        image_radio_bttn = Radiobutton(text="Image", value=1, variable=self.radio_state, command=self.radio_chosen, anchor='c',
-                                       bg=BACKGROUND, fg=BLACK)
-        video_radio_bttn = Radiobutton(text="Video  ", value=2, variable=self.radio_state, command=self.radio_chosen, anchor='c',
-                                       bg=BACKGROUND, fg=BLACK)
+        webcam_radio_bttn = Radiobutton(text="Camera", value=0, variable=self.radio_state, command=self.radio_chosen,
+                                        anchor='c', bg=BACKGROUND, fg=BLACK)
+        image_radio_bttn = Radiobutton(text="Image", value=1, variable=self.radio_state, command=self.radio_chosen,
+                                       anchor='c', bg=BACKGROUND, fg=BLACK)
+        video_radio_bttn = Radiobutton(text="Video  ", value=2, variable=self.radio_state, command=self.radio_chosen,
+                                       anchor='c', bg=BACKGROUND, fg=BLACK)
 
         # Entries, Buttons and Separator
         self.file_directory_ent = Entry(width=50, bd=0, highlightcolor=BLUE)

@@ -19,7 +19,6 @@ class VideoMaskDetection:
 
     count = 0
     flag = False
-    flag2 = False
     offender_img = PhotoImage(file='offenders/last_capture.png')
 
     def __init__(self):
