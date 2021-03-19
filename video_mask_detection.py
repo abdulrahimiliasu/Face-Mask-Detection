@@ -19,7 +19,7 @@ class VideoMaskDetection:
 
     count = 0
     flag = False
-    offender_img = PhotoImage(file='offenders/last_capture.png')
+    captured_img = PhotoImage(file='offenders/last_capture.png')
 
     def __init__(self):
         """
@@ -87,12 +87,6 @@ class VideoMaskDetection:
         return locations, predictions
 
     @staticmethod
-    def alert_sound(boolean: bool):
-        while boolean:
-            pygame.mixer.music.play()
-            time.sleep(2)
-
-    @staticmethod
     def save_offender_image():
         VideoMaskDetection.count += 1
         cv2.imwrite(f"offenders/capture{VideoMaskDetection.count}.png", last_read_frame)
@@ -104,10 +98,8 @@ class VideoMaskDetection:
         :param frame: frame to be passed for detections
         """
         global last_read_frame
-        global no_mask
         try:
             (v_locations, v_predictions) = self.detect_and_predict(frame, self.faceModel, self.maskModel)
-            no_mask = 1
         except TypeError:
             pass
         else:
@@ -124,16 +116,16 @@ class VideoMaskDetection:
                     time.sleep(0.01)
                     cv2.imwrite("offenders/last_capture.png", frame)
                     last_read_frame = frame
-                    offender_img = PhotoImage(file='offenders/last_capture.png')
-                    VideoMaskDetection.offender_img = offender_img
-                    Interface.canvas.create_image(150, 150, image=offender_img)
+                    captured_frame = PhotoImage(file='offenders/last_capture.png')
+                    VideoMaskDetection.captured_img = captured_frame
+                    Interface.canvas.create_image(150, 150, image=captured_frame)
                     Interface.window.update_idletasks()
                     Interface.window.update()
                     VideoMaskDetection.flag = True
 
                 cv2.putText(frame, label, (startX, startY - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
                 cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
-            cv2.imshow("Press 'q' to quit window | press 's' to send email", frame)
+            cv2.imshow("Camera Feed", frame)
 
     def start_video_stream(self, stream_source):
         """
@@ -145,19 +137,20 @@ class VideoMaskDetection:
         vs = cv2.VideoCapture(stream_source)
         time.sleep(2.0)
         Interface.update_progress_bar(100)
-        Interface.update_info_text("Press 'q' to quit window | press 's' to send email of last detection")
+        Interface.update_info_text("Press 'q' to quit window, press 's' to send notification of last detection")
         while True:
             frame_exist, frame = vs.read()
-            frame = imutils.resize(frame, width=400)
-            self.start_mask_detection(frame=frame)
-            key = cv2.waitKey(1) & 0xFF
-            if key == ord("q"):
-                Interface.canvas.create_image(150, 150, image=VideoMaskDetection.offender_img)
-                Interface.update_progress_bar(0)
-                Interface.update_info_text("")
-                break
-            elif key == ord("s"):
-                Notification.notify(show_messagebox=False)
+            if frame_exist:
+                frame = imutils.resize(frame, width=400)
+                self.start_mask_detection(frame=frame)
+                key = cv2.waitKey(1) & 0xFF
+                if key == ord("q"):
+                    Interface.canvas.create_image(150, 150, image=VideoMaskDetection.captured_img)
+                    Interface.update_progress_bar(0)
+                    Interface.update_info_text("")
+                    break
+                elif key == ord("s"):
+                    Notification.notify(show_messagebox=False)
 
         vs.release()
         cv2.destroyAllWindows()
@@ -173,7 +166,7 @@ class VideoMaskDetection:
             messagebox.showerror(title="Error loading Video", message=f"The video could not be loaded, Please check the"
                                                                       f" path and try again {path}!")
         Interface.update_progress_bar(100)
-        Interface.update_info_text("Press 'q' to quit window")
+        Interface.update_info_text("Press 'q' to quit window, press 's' to send notification of last detection")
 
         while True:
             frame_exists, frame = vc.read()

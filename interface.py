@@ -36,8 +36,6 @@ class Interface:
 
     canvas_image = PhotoImage(file='offenders/last_capture.png')
     auto_send_is_on = IntVar()
-    count = 5
-    timer_is_on = False
 
     def __init__(self):
         # Text
@@ -159,20 +157,6 @@ class Interface:
             self.selected_image = p[len(p)-1]
             Interface.canvas_image = PhotoImage(file=f'offenders/{self.selected_image}')
             Interface.canvas.create_image(150, 150, image=Interface.canvas_image)
-
-    @staticmethod
-    def send_notification_timer():
-        Interface.timer_is_on = True
-        Interface.update_message_info_text(f'Sending email in  {Interface.count}s')
-        Interface.count -= 1
-        if Interface.count < 0:
-            Interface.count = 5
-            Interface.timer_is_on = False
-            Interface.update_message_info_text('Sending Notification ...')
-            Notification.notify()
-            return True
-        else:
-            Interface.window.after(1000, lambda: Interface.send_notification_timer())
 
     @staticmethod
     def update_progress_bar(value: int):
