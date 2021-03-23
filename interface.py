@@ -34,7 +34,7 @@ class Interface:
     canvas = Canvas(width=300, height=300, bg=GREY_LIGHT, highlightthickness=0)
     message_info_label = Label(text="", font=FONT_SMALL, padx=5, pady=5, bg=BACKGROUND, fg=DEEP_ORANGE)
 
-    canvas_image = PhotoImage(file='offenders/last_capture.png')
+    canvas_image = PhotoImage(file='captures/last_capture.png')
     auto_send_is_on = IntVar()
 
     def __init__(self):
@@ -150,12 +150,12 @@ class Interface:
         self.file_directory_ent.insert(0, directory)
 
     def browse_images(self):
-        chosen_image_to_send = filedialog.askopenfilename(initialdir='/Face-Mask-Detection/offenders/last_capture.png',
+        chosen_image_to_send = filedialog.askopenfilename(initialdir='captures/last_capture.png',
                                                           title='Images of Detections')
         if not chosen_image_to_send == '':
             p = chosen_image_to_send.split('/')
             self.selected_image = p[len(p)-1]
-            Interface.canvas_image = PhotoImage(file=f'offenders/{self.selected_image}')
+            Interface.canvas_image = PhotoImage(file=f'captures/{self.selected_image}')
             Interface.canvas.create_image(150, 150, image=Interface.canvas_image)
 
     @staticmethod

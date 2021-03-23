@@ -19,7 +19,7 @@ class VideoMaskDetection:
 
     count = 0
     flag = False
-    captured_img = PhotoImage(file='offenders/last_capture.png')
+    captured_img = PhotoImage(file='captures/last_capture.png')
 
     def __init__(self):
         """
@@ -89,7 +89,7 @@ class VideoMaskDetection:
     @staticmethod
     def save_offender_image():
         VideoMaskDetection.count += 1
-        cv2.imwrite(f"offenders/capture{VideoMaskDetection.count}.png", last_read_frame)
+        cv2.imwrite(f"captures/capture{VideoMaskDetection.count}.png", last_read_frame)
         VideoMaskDetection.flag = False
 
     def start_mask_detection(self, frame):
@@ -114,9 +114,9 @@ class VideoMaskDetection:
                 if withoutMask * 100 > 95:
                     pygame.mixer.music.play()
                     time.sleep(0.01)
-                    cv2.imwrite("offenders/last_capture.png", frame)
+                    cv2.imwrite("captures/last_capture.png", frame)
                     last_read_frame = frame
-                    captured_frame = PhotoImage(file='offenders/last_capture.png')
+                    captured_frame = PhotoImage(file='captures/last_capture.png')
                     VideoMaskDetection.captured_img = captured_frame
                     Interface.canvas.create_image(150, 150, image=captured_frame)
                     Interface.window.update_idletasks()
