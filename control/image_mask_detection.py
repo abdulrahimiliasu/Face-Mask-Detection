@@ -46,7 +46,7 @@ class ImageMaskDetection:
                 # ensure the bounding boxes fall within the dimensions of the frame
                 (startX, startY) = (max(0, startX), max(0, startY))
                 (endX, endY) = (min(self.width - 1, endX), min(self.height - 1, endY))
-                # extract the face ROI, convert it from BGR to RGB channel ordering, resize it to 224x224, and preprocess it
+            # extract the face ROI, convert it from BGR to RGB channel ordering,resize it to 224x224, and preprocess it
                 face = self.image[startY:endY, startX:endX]
                 face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
                 face = cv2.resize(face, (224, 224))

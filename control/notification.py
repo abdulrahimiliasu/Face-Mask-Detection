@@ -90,5 +90,6 @@ class Notification:
                                                f"\nPlease check credentials and try again!")
             if show_messagebox:
                 messagebox.showwarning(title="Notification Error",
-                                       message="Email could not be sent, please check the sender's email and password then "
+                                       message="Email could not be sent,"
+                                               " please check the sender's email and password then "
                                                "try again !")

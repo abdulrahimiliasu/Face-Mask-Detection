@@ -2,7 +2,6 @@ from tkinter import Tk, Label, IntVar, Radiobutton, Entry, Button, filedialog, S
     Canvas, ttk, Checkbutton
 from tkinter.ttk import Combobox, Progressbar
 from control.notification import Notification
-import os
 
 
 GREEN = '#4CAF50'
