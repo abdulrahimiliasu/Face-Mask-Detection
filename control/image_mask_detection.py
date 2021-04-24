@@ -12,8 +12,8 @@ class ImageMaskDetection:
     def __init__(self, image_path):
         self.CONFIDENCE = 0.5
         Interface.update_progress_bar(10)
-        prototxt_path = '../caffe_dnn/deploy.prototxt'
-        caffemodel_path = '../caffe_dnn/res10_300x300_ssd_iter_140000.caffemodel'
+        prototxt_path = '../model/caffe_dnn/deploy.prototxt'
+        caffemodel_path = '../model/caffe_dnn/res10_300x300_ssd_iter_140000.caffemodel'
         face_model = cv2.dnn.readNet(prototxt_path, caffemodel_path)
         Interface.update_progress_bar(30)
         self.mask_model = load_model('mask_model')

@@ -61,7 +61,7 @@ class Interface:
                                 onvalue=1, offvalue=0, bg=BACKGROUND)
 
         # Buttons
-        send_bttn_image = PhotoImage(file='../buttons/send.png')
+        send_bttn_image = PhotoImage(file='buttons/send.png')
         send_bttn = Button(image=send_bttn_image, highlightthickness=0,
                            command=lambda: Notification.notify(image=self.selected_image), font=FONT_MEDIUM,
                            bg=BACKGROUND, relief='raised', bd=0)
@@ -77,11 +77,11 @@ class Interface:
 
         # Entries, Buttons and Separator
         self.file_directory_ent = Entry(width=50, bd=0, highlightcolor=BLUE)
-        upload_bttn_image = PhotoImage(file='../buttons/upload.png')
+        upload_bttn_image = PhotoImage(file='buttons/upload.png')
         self.upload_bttn = Button(highlightthickness=0, command=self.upload_file,
                                   image=upload_bttn_image, bg=BACKGROUND, state='disabled')
         sep = ttk.Separator(Interface.window, orient='vertical')
-        start_bttn_image = PhotoImage(file='../buttons/power.png')
+        start_bttn_image = PhotoImage(file='buttons/power.png')
         start_bttn = Button(image=start_bttn_image, highlightthickness=0, command=self.start, font=FONT_MEDIUM,
                             bg=BACKGROUND, relief='groove', bd=0)
 
